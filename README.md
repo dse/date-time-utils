@@ -10,6 +10,14 @@ Usage
     daterange DATE
 	daterange DATE1 DATE2
 	
+The first form of the command just prints today's date.
+
+The second form of the command just prints the date specified by the
+argument.
+
+The third form of the command prints every date between and including
+the two dates you've specified.
+
 Examples
 ========
 
@@ -44,10 +52,11 @@ Examples
 Notes
 =====
 
-You can specify any date format compatible with Perl's Time::ParseDate
+You can specify any date format compatible with Perl's
+[Time::ParseDate](http://search.cpan.org/~muir/Time-modules/lib/Time/ParseDate.pm)
 module.  This program only outputs ISO-8601 (YYYY-MM-DD) dates at this
 time.
-	
+
 License
 =======
 

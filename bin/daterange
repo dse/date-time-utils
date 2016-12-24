@@ -1,0 +1,72 @@
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+if (scalar(@ARGV) < 1) {
+    daterange("today");
+} elsif (scalar(@ARGV) == 1) {
+    daterange("today", $ARGV[0]);
+} else {
+    daterange($ARGV[0], $ARGV[1]);
+}
+
+use POSIX qw(strftime);
+
+sub daterange {
+    my ($from, $to) = @_;
+    if (defined $from) {
+        my $t_from = parsedate2($from);
+        if (defined $to) {
+            my $t_to = parsedate2($to);
+            if ($t_from <= $t_to) {
+                for (my $t = $t_from; $t <= $t_to; $t = nextday($t)) {
+                    print(strftime("%Y-%m-%d\n", localtime($t)));
+                }
+            } else {
+                for (my $t = $t_from; $t >= $t_to; $t = prevday($t)) {
+                    print(strftime("%Y-%m-%d\n", localtime($t)));
+                }
+            }
+        } else {
+            print(strftime("%Y-%m-%d\n", localtime($t_from)));
+        }
+    }
+}
+
+use Time::ParseDate;
+use Time::Local;
+
+sub parsedate2 {
+    my ($string) = @_;
+    my $t = parsedate($string);
+    if (!defined $t) {
+        die("Unable to parse date: $string\n");
+    }
+    return noon($t);
+}
+
+sub noon {
+    my ($t) = @_;
+    my @t = localtime($t);
+    splice(@t, 0, 3, 0, 0, 12);
+    splice(@t, 6);
+    $t = timelocal(@t);
+    return $t;
+}
+
+sub nextday {
+    my ($t) = @_;
+    $t = noon($t);
+    $t += 86400;
+    $t = noon($t);
+    return $t;
+}
+
+sub prevday {
+    my ($t) = @_;
+    $t = noon($t);
+    $t -= 86400;
+    $t = noon($t);
+    return $t;
+}
+

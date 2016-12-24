@@ -16,7 +16,9 @@ The second form of the command just prints the date specified by the
 argument.
 
 The third form of the command prints every date between and including
-the two dates you've specified.
+the two dates you've specified.  If DATE1 is earlier than DATE2, dates
+are printed in chronological order.  If DATE1 is later than DATE2,
+dates are printed in reverse chronological order.
 
 Examples
 ========

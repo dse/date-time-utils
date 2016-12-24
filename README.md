@@ -40,6 +40,13 @@ Examples
 	2017-02-26
 	2017-02-25
 	2017-02-24
+
+Notes
+=====
+
+You can specify any date format compatible with Perl's Time::ParseDate
+module.  This program only outputs ISO-8601 (YYYY-MM-DD) dates at this
+time.
 	
 License
 =======

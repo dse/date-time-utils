@@ -12,8 +12,8 @@ Usage
 	
 The first form of the command just prints today's date.
 
-The second form of the command just prints the date specified by the
-argument.
+The second form of the command prints every date between today and the
+date specified by the argument.
 
 The third form of the command prints every date between and including
 the two dates you've specified.  If DATE1 is earlier than DATE2, dates
@@ -27,6 +27,10 @@ Examples
 	2016-12-24
 	
 	$ daterange 2017-03-01
+	2016-12-24
+	2016-12-25
+	...
+	2017-02-28
 	2017-03-01
 	
 	$ daterange 2017-02-24 2017-03-04

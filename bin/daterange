@@ -2,6 +2,23 @@
 use warnings;
 use strict;
 
+my $format = "%Y-%m-%d";
+
+use Getopt::Long;
+Getopt::Long::Configure("bundling", "gnu_compat");
+Getopt::Long::GetOptions("f|format=s" => \$format,
+                         "h|help" => sub { usage(); exit(0); });
+
+sub usage { print(<<"END"); }
+usage:
+  daterange [OPTION ...]
+  daterange [OPTION ...] DATE
+  daterange [OPTION ...] DATE1 DATE2
+options:
+  -h, --help
+  -f, --format=STRFTIME  (default: %Y-%m-%d => 2017-01-28)
+END
+
 if (scalar(@ARGV) < 1) {
     daterange("today");
 } elsif (scalar(@ARGV) == 1) {
@@ -20,15 +37,15 @@ sub daterange {
             my $t_to = parsedate2($to);
             if ($t_from <= $t_to) {
                 for (my $t = $t_from; $t <= $t_to; $t = nextday($t)) {
-                    print(strftime("%Y-%m-%d\n", localtime($t)));
+                    print(strftime("$format\n", localtime($t)));
                 }
             } else {
                 for (my $t = $t_from; $t >= $t_to; $t = prevday($t)) {
-                    print(strftime("%Y-%m-%d\n", localtime($t)));
+                    print(strftime("$format\n", localtime($t)));
                 }
             }
         } else {
-            print(strftime("%Y-%m-%d\n", localtime($t_from)));
+            print(strftime("$format\n", localtime($t_from)));
         }
     }
 }

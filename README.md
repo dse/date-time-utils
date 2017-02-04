@@ -44,16 +44,16 @@ Examples
 	2017-03-03
 	2017-03-04
 	
-	$ daterange --format='%a %b %d, %Y' 2017-02-24 2017-03-04
-    Fri Feb 24, 2017
-    Sat Feb 25, 2017
-    Sun Feb 26, 2017
-    Mon Feb 27, 2017
-    Tue Feb 28, 2017
-    Wed Mar 01, 2017
-    Thu Mar 02, 2017
-    Fri Mar 03, 2017
-    Sat Mar 04, 2017
+	$ daterange --format='%a, %b %d, %Y' 2017-02-24 2017-03-04
+    Fri, Feb 24, 2017
+    Sat, Feb 25, 2017
+    Sun, Feb 26, 2017
+    Mon, Feb 27, 2017
+    Tue, Feb 28, 2017
+    Wed, Mar 01, 2017
+    Thu, Mar 02, 2017
+    Fri, Mar 03, 2017
+    Sat, Mar 04, 2017
 	
 	$ daterange 2017-03-04 2017-02-24
 	2017-03-04

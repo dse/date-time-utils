@@ -1,0 +1,70 @@
+#!/usr/bin/env perl
+use warnings;
+use strict;
+use v5.10.0;
+
+our $PROGNAME = $0;
+$PROGNAME =~ s{^.*[\\/]}{};
+
+use POSIX qw(strftime mktime round);
+use Data::Dumper qw(Dumper);
+use Date::Parse;
+
+my $format = '%A, %B %e, %Y';   # Friday, November  6, 2020
+
+my ($baseYear, $baseMonth) = parseSpec($PROGNAME);
+if (!defined $baseYear || !defined $baseMonth) {
+    if (!scalar @ARGV) {
+        die(":-(");
+    }
+    my $spec = shift @ARGV;
+    ($baseYear, $baseMonth) = parseSpec($spec);
+    if (!defined $baseYear || !defined $baseMonth) {
+        die(":-(");
+    }
+}
+
+my $time_t = time();
+if (scalar @ARGV) {
+    my $date = shift @ARGV;
+    $time_t = str2time($date);
+    if (!defined $time_t) {
+        die("unknown date/time: $date\n");
+    }
+}
+
+my @localtime = localtime($time_t);
+my ($year, $month, $day) = localtime2ymd(@localtime);
+
+my $now = mktime(0, 0, 12, $day, $month - 1, $year - 1900);
+my $base = mktime(0, 0, 12, 1, $baseMonth - 1, $baseYear - 1900);
+my $deltaDays = round(($now - $base) / 86400);
+
+my $weekdayName = strftime('%A', @localtime);
+my $monthName = strftime('%B', 0, 0, 12, 15, $baseMonth - 1, 2000);
+
+my $realMonthName = strftime('%B', @localtime);
+my $realDay = strftime('%e', @localtime);
+my $realYear = strftime('%Y', @localtime);
+
+printf("It's %s, %s %d, %d.\n", $weekdayName, $monthName, $deltaDays + 1, $baseYear);
+printf("You think it's %s, %s %d, %d, but %s %d never ended.\n",
+       $weekdayName, $realMonthName, $realDay, $realYear,
+       $monthName, $baseYear);
+print("Good luck!\n");
+
+sub localtime2ymd {
+    my (@localtime) = @_;
+    my $year  = $localtime[5] + 1900;
+    my $month = $localtime[4] + 1;
+    my $day   = $localtime[3];
+    return ($year, $month, $day);
+}
+
+sub parseSpec {
+    my ($spec) = @_;
+    if ($spec =~ m{^(\d{3,})-(\d{1,2})$}) {
+        return ($1 + 0, $2 + 0);
+    }
+    return;
+}

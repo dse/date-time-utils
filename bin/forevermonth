@@ -1,7 +1,7 @@
 #!/usr/bin/env perl
 use warnings;
 use strict;
-use v5.10.0;
+use POSIX qw(strftime);
 
 our $PROGNAME = $0;
 $PROGNAME =~ s{^.*[\\/]}{};
@@ -47,11 +47,16 @@ my $realMonthName = strftime('%B', @localtime);
 my $realDay = strftime('%e', @localtime);
 my $realYear = strftime('%Y', @localtime);
 
-printf("It's %s, %s %d, %d.\n", $weekdayName, $monthName, $deltaDays + 1, $baseYear);
-printf("You think it's %s, %s %d, %d, but %s %d never ended.\n",
-       $weekdayName, $realMonthName, $realDay, $realYear,
-       $monthName, $baseYear);
-print("Good luck!\n");
+my $time = strftime("%a Sep <> %H:%M:%S %Z 1993", @localtime);
+$time =~ s{<>}{$deltaDays + 1}ge;
+
+print("$time\n");
+
+# printf("It's %s, %s %d, %d.\n", $weekdayName, $monthName, $deltaDays + 1, $baseYear);
+# printf("You think it's %s, %s %d, %d, but %s %d never ended.\n",
+#        $weekdayName, $realMonthName, $realDay, $realYear,
+#        $monthName, $baseYear);
+# print("Good luck!\n");
 
 sub localtime2ymd {
     my (@localtime) = @_;
